@@ -1,0 +1,32 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "AnexosMongoApplication",
+            "request": "launch",
+            "mainClass": "br.com.alverad.anexos_mongo.AnexosMongoApplication",
+            "projectName": "anexos_mongo",
+            "envFile": "${workspaceFolder}/anexos_api/.env"
+        },
+        {
+            "type": "java",
+            "name": "AdminPanelApplication",
+            "request": "launch",
+            "mainClass": "br.com.alverad.admin_panel.AdminPanelApplication",
+            "projectName": "demo",
+            "envFile": "${workspaceFolder}/admin_panel/.env"
+        },
+        {
+            "type": "java",
+            "name": "EurakaApplication",
+            "request": "launch",
+            "mainClass": "br.com.alverad.euraka.EurakaApplication",
+            "projectName": "euraka",
+            "envFile": "${workspaceFolder}/eureka/.env"
+        }
+    ]
+}
