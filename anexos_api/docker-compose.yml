@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  anexos_mongo_transparencia:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+    image: registry.gitlab.com.br/anexos/anexos_api:latest
+    environment:
+      - TZ=America/Belem
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - traefik-public
+    volumes:
+      - type: bind
+        source: /var/log/apiAnexoMongo.log
+        target: /apiAnexoMongo.log
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+
+  mongodb:
+    container_name: mongo
+    image: mongo:6
+    restart: always
+    ports:
+      - ${MONGO_PORT}:27017
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+
+networks:
+  traefik-public:
+    external: true

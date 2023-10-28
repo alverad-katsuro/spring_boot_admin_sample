@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+
+  eureka:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: registry.gitlab.com.br/services/spring-boot-eureka
+    restart: always
+    networks:
+      - traefik-public
+    environment:
+      - TZ=America/Belem
+    deploy:
+      placement:
+        constraints:
+          - node.labels.service == api
+
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+        - "traefik.constraint-label=traefik-public"
+
+networks:
+  traefik-public:
+    external: true

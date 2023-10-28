@@ -1,0 +1,68 @@
+spring:
+  profiles:
+    default: homol
+  application:
+    name: API de Anexos
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 256MB
+      max-request-size: 256MB
+  #configuração do jackson
+  jackson:
+    default-property-inclusion: NON_NULL
+
+  data:
+    mongodb:
+      host: ${MONGO_HOST}
+      database: ${MONGO_DB}
+      port: ${MONGO_PORT}
+      username: ${MONGO_INITDB_ROOT_USERNAME}
+      password: ${MONGO_INITDB_ROOT_PASSWORD}
+      authentication-database: admin # habilitar autenticação
+      auto-index-creation: true # Atualizar indices quando autlaizar o model.
+
+  security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: ${OAUTH_SERVER_URL}
+            jwk-set-uri: ${OAUTH_SERVER_URL}/protocol/openid-connect/certs
+
+# Swagger
+springdoc:
+  swagger-ui:
+    filter: true
+    use-root-path: true
+  show-login-endpoint: true
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  file:
+      name: /var/log/apiAnexoMongo.log
+      path: /var/log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    web: debug
+    sql: info
+    root: error
+
+# Server configuration
+server:
+  port: ${APP_PORT}
+  forward-headers-strategy: framework
+  compression:
+    enabled: true
+    min-response-size: 2048
+    mime-types:
+    - application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+
+
+cors:
+  allowedOriginPatterns: ${ALLOWED_ORIGINS}
+
+eureka:
+  client:
+    enabled: false

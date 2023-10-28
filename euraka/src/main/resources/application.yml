@@ -1,0 +1,38 @@
+server:
+  port: 8761
+  forward-headers-strategy: framework
+  compression:
+    enabled: true
+    min-response-size: 2048
+    mime-types:
+      - application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+
+spring:
+  application:
+    name: eureka
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH_SERVER_URL}
+          jwk-set-uri: ${OAUTH_SERVER_URL}/protocol/openid-connect/certs
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,auditevents,configprops,env,httptrace,loggers
+  info:
+    env:
+      enabled: false
+  endpoint:
+    health:
+      show-details: ALWAYS

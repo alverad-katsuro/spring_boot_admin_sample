@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KC_DB: postgres # Tipo de Banco
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_PORT: 5432
+      KC_DB_PASSWORD: password
+      KC_DB_USERNAME: postgres
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: username
+      KEYCLOAK_ADMIN_PASSWORD: password
+    command: start-dev #Comando de inicio
+    restart: always
+    ports:
+      - 8085:8080
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"

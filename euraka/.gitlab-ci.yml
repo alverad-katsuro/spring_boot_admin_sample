@@ -1,0 +1,52 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  GIT_CLEAN_FLAGS: none
+
+docker_build:
+  stage: build
+  environment: prod
+  only:
+    - main
+  tags:
+    - build
+    - docker
+  script:
+    # set env
+    - echo "DOMAIN_APPLICATION=$DOMAIN_APPLICATION" >> .env
+
+    - echo DATE_VERSION=$(date +%d-%m-%Y) >> .env
+
+    # perform login on docker registry
+    # - docker login -u $CI_REGISTER_USER -p $REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+    # build project images
+    - docker compose -f docker-compose.build.yml build
+
+    # push project images to registry
+    - docker compose -f docker-compose.build.yml push
+
+    - docker system prune -f
+
+docker_up:
+  stage: deploy
+  environment: prod
+  only:
+    - main
+  tags:
+    - ssh
+    - prod
+  script:
+    # perform login on docker registry
+    - docker login $CI_REGISTRY
+    - echo "OAUTH_SERVER_URL=$OAUTH_SERVER_URL" >> .env
+
+    - docker compose pull
+
+    - docker stack deploy -c docker-compose.yml eureka
+
+    - docker system prune -f

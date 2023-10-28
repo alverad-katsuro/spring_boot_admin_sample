@@ -1,0 +1,22 @@
+logging:
+  level:
+    '[org.hibernate.stat]': debug
+
+spring:
+  #DEVTOOLS
+  devtools:
+    add-properties: true
+  sql:
+    init:
+      mode: always
+  jpa:
+    defer-datasource-initialization: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      '[hibernate.format_sql]' : true
+      '[hibernate.generate_statistics]' : true
